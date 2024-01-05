@@ -2,6 +2,7 @@ const express = require("express");
 const cors = require("cors");
 require("dotenv").config({ path: "./config.env" });
 const bodyParser = require('body-parser');
+require("./startup/dbConfig");
 
 var app = express();
 

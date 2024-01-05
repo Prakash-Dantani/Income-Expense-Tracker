@@ -1,11 +1,25 @@
 const Joi = require("joi")
+const User = require("../models/UserModels")
+const _ = require("lodash");
 
 // Signup page Add
-module.exports.signup = (req, res, next) =>{
-    
+module.exports.signup = async (req, res, next) =>{
+
+    const userObject = _.pick(req.body, ['name', 'email', 'birthdate', 'mobile', 'gender', 'password']);
+    // const salt = await bcrypt.genSalt(10);
+    // userObject.password = await bcrypt.hash(userObject.password, salt);
+    console.log(userObject);
+    // const user = User.create(userObject);
+    const user = await new User(userObject).save();
+
+     
+    // const token = user.generateAuthToken();
+    // return res.header('x-auth-token', token).send(_.pick(user, ['id', 'name', 'email', 'birthdate', 'mobile', 'gender', 'password']));
+
+
     res.status(200).json({
         status:200,
-        message:"Auth Controller Signup Method Call."
+        message:"Successfully Sign up."
     })
 }
 
