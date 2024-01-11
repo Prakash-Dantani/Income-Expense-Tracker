@@ -2,7 +2,6 @@ const winston = require("winston");
 require('winston-daily-rotate-file');
 const fs = require('fs');
 
-let logType = "error";
 // Function which will return current Date
 function getDirName(){ // returns current YYYY-MM
     var curDate = new Date();

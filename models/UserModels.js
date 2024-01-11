@@ -1,4 +1,6 @@
 const mongoose = require('mongoose');
+const jwt = require('jsonwebtoken');
+const config = require('config'); 
 
 const userSchema = new mongoose.Schema({
     name:{ type:String, minlength:5, maxlength:30, required:true},
@@ -6,19 +8,15 @@ const userSchema = new mongoose.Schema({
     email:{ type:String, required:true, unique:false},
     mobile:{ type:String, minlength:10, maxlength:10, required:true},
     gender:{ type:String, minlength:4, maxlength:6, required:true},
-    password: { type:String, minlength:3, maxlength:15, required:true}
+    password: { type:String, minlength:3, required:true}
 });
 
+userSchema.method('generateAuthToken', function(){
+    const token = jwt.sign({ _id : this._id, isAdmin : true}, 'Ram@1324');
+    return token;
+})
 const User = mongoose.model('users', userSchema);
 
 module.exports = User;
 
-// userSchema.method('generateAuthToken', function(){
-//     const token = jwt.sign({ _id : this._id, isAdmin : this.isAdmin}, config.get('jwtPrivateKey'));
-//     return token;
-// })
-
-// User = mongoose.model('user', userSchema);
-
-// module.exports.mongoose = mongoose;
-// module.exports.User = User;
+module.exports.mongoose = mongoose;

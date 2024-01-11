@@ -1,3 +1,5 @@
 {
-    "name":"My Expres App"
+    "name":"Income Expense Tracker",
+    "JWT_SECRET_KEY":"Ram@1324"
+
 }

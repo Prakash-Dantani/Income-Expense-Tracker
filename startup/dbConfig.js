@@ -1,5 +1,4 @@
 const mongoose= require("mongoose");
-const winston= require("winston");
 const {infoLogger, errorLogger} = require('../logger/winston-logger');
  
 mongoose.connect('mongodb://localhost:27017/income-expance-tracker')
