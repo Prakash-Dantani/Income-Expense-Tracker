@@ -3,14 +3,14 @@ const User = require("../models/UserModels");
 const _ = require("lodash");
 const bcrypt = require("bcrypt");
 
-// Signup User Details Add
+//// Signup User Details Add
 module.exports.signup = async (req, res, next) =>{
 
-    // Check user with same email id is exist
+    //// Check user with same email id is exist
     let user = await User.findOne({email:req.body.email});
     if(user) return res.status(400).send('User with same Email already exist.');
     
-    // what we need from request get into array and pass for insert into database
+    //// what we need from request get into array and pass for insert into database
     const userObject = _.pick(req.body, ['name', 'email', 'birthdate', 'mobile', 'gender', 'password']);
 
     const salt = await bcrypt.genSalt(10);
@@ -25,19 +25,19 @@ module.exports.signup = async (req, res, next) =>{
     })
 }
 
-
+//// User Login Function 
 module.exports.login = async (req, res, next) => {
     const form_data = _.pick(req.body, ['email', 'password']);
     
-    // check user input validation
+    //// check user input validation
     let error = loginValidation(form_data);
     if(error) return res.status(400).send({status:400,message:"Invalid Email Id And Password."});
     
-    // check Email id and password for validate Email and password for user exist.
+    //// check Email id and password for validate Email and password for user exist.
     const user = await User.findOne({email:req.body.email});
     if(!user)  return res.status(400).send('Invalid Email or Password.');
 
-    // return res.status(200).send({"Input ":req.body.password, "DB" : user.password, "data":user.name});
+    //// return res.status(200).send({"Input ":req.body.password, "DB" : user.password, "data":user.name});
 
     const validPassword =  await bcrypt.compare(req.body.password, user.password);
     if(!validPassword)  return res.status(400).send('Invalid Email or Password.');
@@ -46,11 +46,26 @@ module.exports.login = async (req, res, next) => {
     return res.header('x-auth-token', token).send({data:_.pick(user, ['id', 'name', 'email', 'birthdate', 'mobile', 'gender']), message:"Successfully Login"});
 
 }
+//// User Login Function End
+
+//// Check User is Login function start
+module.exports.isLogin = async (req, res, next) =>{
+    
+}
+//// Check User is Login function End
+
+//// Check User is Valid or not function start
+module.exports.isValidUser = async (req, res, next) =>{
+    console.log('Valid user...');
+    next();
+}
+//// Check User is Valid or not function End
 
 
-//  Validation Start
 
-// Signup Page Validation start
+////  Validation Start
+
+//// Signup Page Validation start
 module.exports.signupValidation = (userData) => {
     const signUpSchema = Joi.object({
         name:Joi.string().min(5).max(30).required(),
@@ -69,7 +84,10 @@ module.exports.signupValidation = (userData) => {
     const isValid = signUpSchema.validate(userData);
     return isValid.error;
 }
+//// Signup Page Validation End
 
+
+//// User Login Form Validation Code Start
 const loginValidation = (formData) => {
     const login_schema = Joi.object({
                         email:Joi.string().email({
@@ -82,5 +100,6 @@ const loginValidation = (formData) => {
     const isValid = login_schema.validate(formData);
     return isValid.error;
 } 
+//// User Login Form Validation Code End
 
-//  Validation End
+////  Validation End

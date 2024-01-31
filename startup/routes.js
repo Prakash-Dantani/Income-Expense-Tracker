@@ -1,9 +1,10 @@
-const express = require('express');
 const authRoute = require("../routes/authRoute");
+const ExpenseCategoryRoute = require("../routes/ExpenseCategoryRoute");
 
 module.exports = function(app){
     app.use("/auth", authRoute);
-
+    
+    app.use("/expense_category", ExpenseCategoryRoute);
     
     app.use("*", (req, res) =>
     res.status(404).json({ status: 500, message: "No Routes Found..!" })
