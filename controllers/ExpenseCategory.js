@@ -1,5 +1,6 @@
 const ExpenseCategories = require("../models/ExpenseCategories");
 const _ = require('lodash');
+const GetID = require('../middleware/getValidateID');
 
 // // List or View Expense Category Code Start
 module.exports.index = async (req, res) =>{
@@ -20,7 +21,7 @@ module.exports.store = async(req, res) => {
     
     //// what we need from request get into array and pass for insert into database
     const category_object = _.pick(req.body, ['name']);
-    category_object['created_by'] = 1;
+    category_object['created_by'] = req.user._id;
 
     ExpenseCategory = await new ExpenseCategories(category_object).save();
 
@@ -34,15 +35,61 @@ module.exports.store = async(req, res) => {
 // // Add Expense Category Code End
 
 
-// // List or View Expense Category Code Start
+// // select Expense Category for Edit Code Start
 module.exports.edit = async (req, res) =>{
-    let id = req.params.id;
-    if(req.method === 'POST')
-          id = req.body.id;
+    const id = GetID.GetID(req);
 
     let expense_category = await ExpenseCategories.findOne({'_id':id}).select({name:1, _id:2});
     if(!expense_category) return res.status(400).send('Category not found.');
     res.status(200).send(expense_category); 
 };
-// // List or View Expense Category Code End
+// // select Expense Category for Edit Code End
+
+
+// // Update Expense Category Code Start
+module.exports.update = async (req, res) =>{
+    const id = GetID.GetID(req);
+        
+    //// Check Category with id is exist or not
+    let expense_category = await ExpenseCategories.findById(id);
+    if(!expense_category) return res.status(404).send('Category not found.');
+    
+    //// Check Category with same name is exist
+    expense_category = await ExpenseCategories.findOne({name:req.body.name});
+    if(expense_category) return res.status(400).send('Category with same name already exist.');
+    
+    const updateObject = {
+        name : req.body.name,
+        updated_by : req.user._id,
+        updated_at : Date.now(),
+    };
+
+    expense_category = await ExpenseCategories.findByIdAndUpdate(id, updateObject, {new : true} );
+    if(!expense_category) return res.status(400).send({msg : 'Something wrong, Please Try again.'});
+    
+    return res.status(200).send({msg : 'Expense Category Successfully Updated.', data : _.pick(expense_category, ['name'])});
+};
+// // Update Expense Category Code End
+
+
+// // Delete Expense Category Code Start
+module.exports.delete = async (req, res) =>{
+    const id = GetID.GetID(req);
+
+    //// Check Category with id is exist or not
+    let expense_category = await ExpenseCategories.findById(id);
+    if(!expense_category) return res.status(404).send('Category not found.');
+    
+    const updateObject = {
+        is_deleted : true,
+        deleted_by : req.user._id,
+        deleted_at : Date.now(),
+    };
+
+    expense_category = await ExpenseCategories.findByIdAndUpdate(id, updateObject, {new : true} );
+    if(!expense_category) return res.status(400).send({msg : 'Something wrong, Please Try again.'});
+    
+    return res.status(200).send({msg : `Expense Category : ${expense_category.name} Successfully Deleted.`, data : _.pick(expense_category, ['name', 'is_deleted'])});
+};
+// // Delete Expense Category Code End
 
