@@ -1,7 +1,7 @@
 const mongoose = require("mongoose");
 
 const expansecategorySchema =  new mongoose.Schema({
-    name: { type:String, minlength:5, maxlength:30, required:true },
+    name: { type:String, minlength:3, maxlength:100, required:true },
     created_by: { type:String, minlength:1, required:true },
     created_at: { type: Date, default: Date.now },
     updated_by: { type:String, minlength:1, required:false },

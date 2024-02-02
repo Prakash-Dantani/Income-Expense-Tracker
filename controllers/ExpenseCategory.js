@@ -1,6 +1,7 @@
 const ExpenseCategories = require("../models/ExpenseCategories");
 const _ = require('lodash');
 const GetID = require('../middleware/getValidateID');
+const Joi = require("joi");
 
 // // List or View Expense Category Code Start
 module.exports.index = async (req, res) =>{
@@ -14,6 +15,11 @@ module.exports.index = async (req, res) =>{
 
 // // Add Expense Category Code Start
 module.exports.store = async(req, res) => {
+    
+    // Category Validation
+    const error = category_validation(req.body, _.pick(['name']));
+    console.log(error);
+    if(error) return res.status(400).send({status:400,message:error.message});
     
     //// Check Category with same name is exist
     let ExpenseCategory = await ExpenseCategories.findOne({name:req.body.name});
@@ -93,3 +99,23 @@ module.exports.delete = async (req, res) =>{
 };
 // // Delete Expense Category Code End
 
+// // Category Validation Code start
+const category_validation = (FormData) =>{
+    const category_validation_schema = Joi.object({
+        name:Joi.string().min(3).max(100).required().regex(/^[a-zA-Z0-9\s]+$/
+        
+        
+        ).messages({
+            'string.base': `"Name" should be a type of 'text'`,
+            'string.empty': `"Name" cannot be an empty field`,
+            'string.min': `"Name" should have a minimum length of {#limit}`,
+            'string.max': `"Name" should have a maximum length of {#limit}`,
+            'string.pattern.base': `"Name" should have a only character not allowed special character`,
+            'any.required': `"Name" is a required field`
+          })
+    });
+
+    const is_valid = category_validation_schema.validate(FormData);
+    return is_valid.error;
+}
+// // Category Validation Code End
