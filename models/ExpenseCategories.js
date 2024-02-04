@@ -13,4 +13,5 @@ const expansecategorySchema =  new mongoose.Schema({
 
 const expansecategory = mongoose.model('expanse_categories', expansecategorySchema);
 
-module.exports = expansecategory;
+exports.expansecategorySchema = expansecategorySchema;
+exports.ExpenseCategories = expansecategory;

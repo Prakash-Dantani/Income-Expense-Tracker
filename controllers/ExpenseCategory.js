@@ -1,4 +1,4 @@
-const ExpenseCategories = require("../models/ExpenseCategories");
+const {ExpenseCategories} = require("../models/ExpenseCategories");
 const _ = require('lodash');
 const GetID = require('../middleware/getValidateID');
 const Joi = require("joi");
@@ -103,9 +103,7 @@ module.exports.delete = async (req, res) =>{
 const category_validation = (FormData) =>{
     const category_validation_schema = Joi.object({
         name:Joi.string().min(3).max(100).required().regex(/^[a-zA-Z0-9\s]+$/
-        
-        
-        ).messages({
+            ).messages({
             'string.base': `"Name" should be a type of 'text'`,
             'string.empty': `"Name" cannot be an empty field`,
             'string.min': `"Name" should have a minimum length of {#limit}`,
