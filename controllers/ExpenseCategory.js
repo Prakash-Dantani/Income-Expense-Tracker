@@ -34,8 +34,8 @@ module.exports.store = async(req, res) => {
     return res
             // .header('x-auth-token', token)
             .send({
+                    message:"New Expense Category Successfully Added.",
                     data:_.pick(ExpenseCategory, ['name']), 
-                    message:"New Expense Category Successfully Added."
                 });
 }
 // // Add Expense Category Code End

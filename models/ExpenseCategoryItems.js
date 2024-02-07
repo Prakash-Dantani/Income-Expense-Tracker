@@ -13,6 +13,6 @@ const expenseCategoryItemSchema = new mongoose.Schema({
     is_deleted : {type:Boolean}
 });
 
-const expenseCategoryItems = mongoose.model('expenseCategoryItemSchema', expenseCategoryItemSchema);
+const expenseCategoryItems = mongoose.model('expense_category_item_schema', expenseCategoryItemSchema);
 
 module.exports = expenseCategoryItems;
