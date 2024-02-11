@@ -8,8 +8,8 @@ const router = express.Router();
 
 router.get('/index', isAuthentic, isAdmin, ExpenseCategoryItem.index);
 router.post('/store', isAuthentic, isAdmin, ExpenseCategoryItem.store);
-router.post('/edit', isAuthentic, isAdmin, ExpenseCategoryItem.edit);
-router.put('/update', isAuthentic, isAdmin, ExpenseCategoryItem.update);
-router.delete('/delete', isAuthentic, isAdmin, ExpenseCategoryItem.delete);
+router.post('/edit', isAuthentic, isAdmin, validateID, ExpenseCategoryItem.edit);
+router.put('/update', isAuthentic, isAdmin, validateID, ExpenseCategoryItem.update);
+router.delete('/delete', isAuthentic, isAdmin, validateID, ExpenseCategoryItem.delete);
 
 module.exports = router;

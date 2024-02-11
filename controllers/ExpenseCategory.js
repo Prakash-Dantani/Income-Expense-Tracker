@@ -2,13 +2,15 @@ const {ExpenseCategories} = require("../models/ExpenseCategories");
 const _ = require('lodash');
 const GetID = require('../middleware/getValidateID');
 const Joi = require("joi");
+const { validateObjectID } = require("../middleware/validateID");
 
 // // List or View Expense Category Code Start
 module.exports.index = async (req, res) =>{
-    let expense_categories = await ExpenseCategories.find().select({name:1, _id:2}).sort('name');
-    if(!expense_categories) return res.status(400).send('Category not found.');
-    // expense_categories = _.pick(expense_categories, ['name' , '_id']);
-    res.status(200).send(expense_categories); 
+    const rs = await this.getAllCategory();
+    if(rs.status !== 200) return res.status(rs.status).send({message:rs.message});
+
+    const expense_categories = rs.data;
+    return res.status(200).send(expense_categories); 
 };
 // // List or View Expense Category Code End
 
@@ -44,7 +46,6 @@ module.exports.store = async(req, res) => {
 // // select Expense Category for Edit Code Start
 module.exports.edit = async (req, res) =>{
     const id = GetID.GetID(req);
-
     let expense_category = await ExpenseCategories.findOne({'_id':id}).select({name:1, _id:2});
     if(!expense_category) return res.status(400).send('Category not found.');
     res.status(200).send(expense_category); 
@@ -98,6 +99,31 @@ module.exports.delete = async (req, res) =>{
     return res.status(200).send({msg : `Expense Category : ${expense_category.name} Successfully Deleted.`, data : _.pick(expense_category, ['name', 'is_deleted'])});
 };
 // // Delete Expense Category Code End
+
+
+
+// // Get or Search Category Using ID Code start
+module.exports.getCategory = async(id) =>{
+    let error = validateObjectID(id);
+    if(error) return {status:403 , message:'Category Id not found.', data:[]};
+
+    let expense_category = await ExpenseCategories.findOne({'_id':id}).select({name:1, _id:2});
+    if(!expense_category) return {status:404 , message:'Category not found.', data:[]};
+    
+    return {status:200 , message:'Category Id found.', data:expense_category}; 
+}
+// // Get or Search Category Using ID Code End
+
+// // Get All Expense CategoryCode start
+module.exports.getAllCategory = async() =>{
+    let expense_categories = await ExpenseCategories.find().select({name:1, _id:2}).sort('name');
+    if(!expense_categories) return ({message:'Category not found.', status:400});
+
+    return {status:200 , message:'Expense Category found.', data:expense_categories}; 
+}
+// // Get or Search Category Using ID Code End
+
+
 
 // // Category Validation Code start
 const category_validation = (FormData) =>{

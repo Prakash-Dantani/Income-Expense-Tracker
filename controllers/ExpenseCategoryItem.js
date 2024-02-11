@@ -3,11 +3,12 @@ const _ = require('lodash');
 const ExpenseCategoryItems = require("../models/ExpenseCategoryItems");
 const {ExpenseCategories} = require("../models/ExpenseCategories");
 const {validateObjectID} = require("../middleware/validateID");
+const expenseCategoryItems = require("../models/ExpenseCategoryItems");
 
-module.exports.index = async(req, res) => {
-    let expense_category_items = await ExpenseCategoryItems.find().select({name:1, _id:2}).sort('name');
-    if(!expense_category_items) return res.status(400).send('Expense Category Items not found.');
-    return res.status(200).send({message : "Successfully Expense Category Items Fetched", data : expense_category_items});
+module.exports.index = async(req, res) => { 
+    const rs = await this.getAllCategoryItems();
+    if(rs.status !== 200) return res.status(rs.status).send({message:rs.messages})
+    return res.status(200).send({message : "Successfully Expense Category Items Fetched", data : rs.data});
 }
 
 module.exports.store = async (req, res) => {
@@ -124,18 +125,42 @@ module.exports.delete = async (req, res) => {
                 });
 }
 
+// // Get or Search Category Items Using ID Code start
+module.exports.getCategoryItems = async(id) =>{
+    let error = validateObjectID(id);
+    // console.log(error);
+    if(error) return {status:401 , message:'Category Items Id not found.', data:[]};
+    
+    let expense_category = await expenseCategoryItems.findOne({'_id':id}).select({name:1, _id:2});
+    if(_.isNull(expense_category)) return {status:401 , message:'Category Items not found.', data:[]};
+    
+    return {status:200 , message:'Category found.', data:expense_category}; 
+}
+// // Get or Search Category Items Using ID Code End
 
+// // Get All Expense Category Items Code start
+module.exports.getAllCategoryItems = async() =>{
+    let expense_categoryItems = await ExpenseCategoryItems.find().select({name:1, _id:2}).sort('name');
+    if(!expense_categoryItems) return ({message:'Category Item not found.', status:400});
+
+    return {status:200 , message:'Expense Category found.', data:expense_categoryItems}; 
+}
+// // Get or Search Category Items Code End
+
+
+// // Form Validation Code Start
 const expenseItemsValidation = (FormData) => {
     console.log(FormData);
     const expense_items = Joi.object({
         "name" : Joi.string().min(3).max(50).required().regex(/^[a-zA-Z0-9\s]+$/
-                ).messages({
-                'string.pattern.base': `"Name" should have a only character not allowed special character`,
-                'any.required': `"Name" is a required field`
-            }),
+        ).messages({
+            'string.pattern.base': `"Name" should have a only character not allowed special character`,
+            'any.required': `"Name" is a required field`
+        }),
         "expense_category" : Joi.string().required(),  
     });
     const is_valid = expense_items.validate(FormData);
     return is_valid.error;
-
+    
 }
+// // Form Validation Code End
