@@ -73,6 +73,31 @@ module.exports.edit = async(req, res) => {
             });
 }
 
+// update Expense Code Start
+module.exports.update= async (req, res) =>{
+    const id = GetID(req);
+   
+    let error = validateObjectID(id);
+    if(error) return res.status(404).send({message:`Expense Detail not found or Invalid Expense ID.`, data:req.body, status:404});
+    
+
+    return res.status(200).send({message:"Expense Update Code is Remaining.", data:[]})
+}
+// update Expense Code End
+
+// Delete Expense Code Start
+module.exports.delete = async (req, res) => {
+    const id = GetID(req);
+   
+    let error = validateObjectID(id);
+    if(error) return res.status(404).send({message:`Expense Detail not found or Invalid Expense ID.`, data:req.body, status:404});
+    
+    let expense = await Expense.findOneAndDelete({'_id':id});
+    if(!expense) return res.status(404).send({message:`Expense Detail not found.`, data:req.body, status:404});
+
+    return res.status(200).send({message:"Expense Deleted Successfully.", data:expense})
+}
+// Delete Expense Code End
 
 
 // USer Input Form Validation Start
