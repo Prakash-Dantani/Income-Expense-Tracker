@@ -4,7 +4,6 @@ import {
   Box,
   Flex,
   Avatar,
-  Text,
   Button,
   Menu,
   MenuButton,
@@ -12,21 +11,14 @@ import {
   MenuItem,
   MenuDivider,
   useDisclosure,
-  useColorModeValue,
   Stack,
-  useColorMode,
   Center,
   HStack,
   IconButton,
 } from "@chakra-ui/react";
-import ColorModeSwitch from "../ColorModeSwitch";
 import NavLinks from "./NavLinks";
-import {
-  AddIcon,
-  CloseIcon,
-  HamburgerIcon,
-  UnlockIcon,
-} from "@chakra-ui/icons";
+import { CloseIcon, HamburgerIcon, UnlockIcon } from "@chakra-ui/icons";
+import LinkElement from "../elements/LinkElement";
 
 const Links = ["Dashboard", "Projects", "Team", "Contact Us", "About Us"];
 
@@ -52,15 +44,21 @@ export default function Navbar() {
           <Flex alignItems={"center"}>
             <Stack direction={"row"} spacing={7}>
               <Menu>
-                <Button
-                  variant={"solid"}
-                  colorScheme={"teal"}
-                  size={"sm"}
-                  mr={4}
-                  leftIcon={<UnlockIcon />}
-                >
-                  Login
-                </Button>
+                <LinkElement to={"login"}>
+                  <Button
+                    variant={"solid"}
+                    color={"white"}
+                    bg={"blue.400"}
+                    _hover={{
+                      bg: "blue.500",
+                    }}
+                    size={"sm"}
+                    mr={4}
+                    leftIcon={<UnlockIcon />}
+                  >
+                    Login
+                  </Button>
+                </LinkElement>
                 <MenuButton
                   as={Button}
                   rounded={"full"}
