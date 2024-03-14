@@ -4,6 +4,10 @@ import HomePage from "../pages/HomePage";
 // import ContentPage from "../pages/ContentPage";
 import ErrorPage from "../pages/ErrorPage";
 import LoginPage from "../pages/LoginPage";
+import ContentPage from "../pages/UserHomePage";
+import AppLayout from "../pages/AppLayout";
+import AddExpense from "../components/AddExpense";
+import Logout from "../pages/Logout";
 
 const router = createBrowserRouter([
   {
@@ -13,6 +17,16 @@ const router = createBrowserRouter([
     children: [
       { index: true, element: <HomePage /> },
       { path: "login/", element: <LoginPage /> },
+    ],
+  },
+  {
+    path: "/app",
+    element: <AppLayout />,
+    errorElement: <ErrorPage />,
+    children: [
+      { path: "home", element: <ContentPage /> },
+      { path: "addExpense", element: <AddExpense /> },
+      { path: "logout", element: <Logout /> },
     ],
   },
 ]);

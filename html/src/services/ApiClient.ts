@@ -1,24 +1,10 @@
 import axios from "axios";
 
-const token = localStorage.getItem("x-auth-token") ?? "";
+let token = localStorage.getItem("x-auth-token") ?? "";
 //   if(!token){
 //     navigator("/login");
 //     return;
 //   }
-// const ApiClient = axios.create({
-//   baseURL: "http://localhost:3000/",
-//   headers: {
-//     "Content-Type": "application/json",
-//     Authorization: `Bearer ${token}`,
-//     Accept: "application/json",
-//   },
-// });
-
-// export default ApiClient;
-
-
-// ApiClient.post("get_user");
-
 
 import { AxiosRequestConfig } from "axios"
 
@@ -28,18 +14,20 @@ export interface FetchResponse<T>{
     results:T[],
 }
 
-const axiousInstance = axios.create({
-    baseURL: "http://localhost:3000/",
+export const axiousInstance = axios.create({
+    baseURL: "http://localhost:3000",
 	headers: {
 		"Content-Type": "application/json",
 		Authorization: `Bearer ${token}`,
 		Accept: "application/json",
+        'x-auth-token' : token
 	},
 });
 
 class APIClient<T>{
     endpoint:string;
     constructor(endpoint:string){
+        token = localStorage.getItem("x-auth-token") ?? "";
         this.endpoint = endpoint;
     }
 
@@ -49,9 +37,9 @@ class APIClient<T>{
             .then(res => res.data);
     }
     
-	login = (config: AxiosRequestConfig) => {
+	post = (formData) => {
         return axiousInstance
-            .get<FetchResponse<T>>(this.endpoint, config)
+            .post(this.endpoint, formData)
             .then(res => res.data);
     }
 

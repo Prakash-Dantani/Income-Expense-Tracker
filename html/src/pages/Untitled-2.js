@@ -24,7 +24,6 @@ const Links = ["Dashboard", "Projects", "Team", "Contact Us", "About Us"];
 
 export default function Navbar() {
   const { isOpen, onOpen, onClose } = useDisclosure();
-
   return (
     <>
       <Box px={4}>
@@ -42,7 +41,6 @@ export default function Navbar() {
               <NavLinks key={link}>{link}</NavLinks>
             ))}
           </HStack>
-
           <Flex alignItems={"center"}>
             <Stack direction={"row"} spacing={7}>
               <Menu>

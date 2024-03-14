@@ -21,7 +21,8 @@ userSchema.method('generateAuthToken', function(){
                               mobile:this.mobile,
                               email:this.email
                             },
-                          'Ram@1324');
+                          'Ram@1324',
+                          { expiresIn: '1h' });
     return token;
 })
 const User = mongoose.model('users', userSchema);

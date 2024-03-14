@@ -14,6 +14,11 @@ import {
   useColorModeValue,
   FormErrorMessage,
 } from "@chakra-ui/react";
+import useLoggedInStore from "../hooks/useAuth";
+import validateJwt from "../services/ValidateJwt";
+import { useEffect } from "react";
+import { useNavigate } from "react-router-dom";
+import requestHandle from "../hooks/useLogin";
 
 export default function LoginPage() {
   const {
@@ -22,23 +27,32 @@ export default function LoginPage() {
     formState: { errors, isSubmitting },
   } = useForm();
 
-  function onSubmit(values) {
-    return new Promise<void>((resolve) => {
-      //   setTimeout(() => {
-      //     alert(JSON.stringify(values, null, 2));
-      //     resolve();
-      //   }, 3000);
-      try {
-        const res = fetch("http://localhost:3000/auth/login", {
-          method: "POST",
-          body: "apple",
-        });
-        // const user: UserProps[] = await res.json();
-        // setUsers(user);
-        console.log(res);
-      } catch (e) {}
-    });
-  }
+  const useLoginStore = useLoggedInStore();
+  const navigate = useNavigate();
+
+  const onSubmit = async (values) => {
+    let { data, token } = await requestHandle(values);
+
+    useLoginStore.login(data, token);
+    const valid_jwt = validateJwt(token);
+    if (valid_jwt.isLogin) {
+      alert(valid_jwt.message);
+      return navigate("/app/home");
+    }
+    alert(valid_jwt.message);
+  };
+
+  useEffect(() => {
+    setInterval(() => {
+      const { isLogin, message } = validateJwt(
+        localStorage.getItem("x-auth-token")
+      );
+      if (!isLogin) {
+        alert(message);
+        return navigate("/");
+      }
+    }, 200000);
+  }, []);
 
   return (
     <Flex
@@ -57,11 +71,7 @@ export default function LoginPage() {
           boxShadow={"lg"}
           p={8}
         >
-          <form
-            onSubmit={handleSubmit(onSubmit)}
-            method="post"
-            action="http://localhost:3000/auth/login"
-          >
+          <form onSubmit={handleSubmit(onSubmit)} method="post">
             <FormControl isInvalid={Boolean(errors.email)}>
               <FormLabel htmlFor="email">Email or User Name</FormLabel>
               <Input

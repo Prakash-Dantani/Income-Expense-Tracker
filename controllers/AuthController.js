@@ -27,9 +27,7 @@ module.exports.signup = async (req, res, next) =>{
 
 //// User Login Function 
 module.exports.login = async (req, res, next) => {
-    console.log('Login Called');
     const form_data = _.pick(req.body, ['email', 'password']);
-    console.log(form_data);
     
     //// check user input validation
     let error = loginValidation(form_data);
@@ -45,7 +43,7 @@ module.exports.login = async (req, res, next) => {
     if(!validPassword)  return res.status(400).send('Invalid Email or Password.');
 
     const token = user.generateAuthToken();
-    return res.header('x-auth-token', token).send({data:_.pick(user, ['id', 'name', 'email', 'birthdate', 'mobile', 'gender']), message:"Successfully Login"});
+    return res.header('x-auth-token', token).send({data:_.pick(user, ['id', 'name', 'email', 'birthdate', 'mobile', 'gender']), message:"Successfully Login", "status":200, "token":token});
 
 }
 //// User Login Function End

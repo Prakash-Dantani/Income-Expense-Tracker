@@ -16,13 +16,10 @@ import {
   HStack,
   IconButton,
 } from "@chakra-ui/react";
-import NavLinks from "./NavLinks";
 import { CloseIcon, HamburgerIcon, UnlockIcon } from "@chakra-ui/icons";
 import LinkElement from "../elements/LinkElement";
 
-const Links = ["Dashboard", "Projects", "Team", "Contact Us", "About Us"];
-
-export default function Navbar() {
+export default function NavHeader() {
   const { isOpen, onOpen, onClose } = useDisclosure();
 
   return (
@@ -37,16 +34,12 @@ export default function Navbar() {
             display={{ md: "none" }}
             onClick={isOpen ? onClose : onOpen}
           />
-          <HStack as={"nav"} spacing={4} display={{ base: "none", md: "flex" }}>
-            {Links.map((link) => (
-              <NavLinks key={link}>{link}</NavLinks>
-            ))}
-          </HStack>
+          <HStack spacing={4} display={{ base: "none", md: "flex" }}></HStack>
 
           <Flex alignItems={"center"}>
             <Stack direction={"row"} spacing={7}>
               <Menu>
-                <LinkElement to={"login"}>
+                <LinkElement to={"logout"}>
                   <Button
                     variant={"solid"}
                     color={"white"}
@@ -58,7 +51,7 @@ export default function Navbar() {
                     mr={4}
                     leftIcon={<UnlockIcon />}
                   >
-                    Login
+                    Logout
                   </Button>
                 </LinkElement>
                 <MenuButton
@@ -99,16 +92,6 @@ export default function Navbar() {
             </Stack>
           </Flex>
         </Flex>
-
-        {isOpen ? (
-          <Box pb={4} display={{ md: "none" }}>
-            <Stack as={"nav"} spacing={4}>
-              {Links.map((link) => (
-                <NavLinks key={link}>{link}</NavLinks>
-              ))}
-            </Stack>
-          </Box>
-        ) : null}
       </Box>
     </>
   );

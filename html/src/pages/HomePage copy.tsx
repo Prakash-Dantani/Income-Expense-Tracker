@@ -1,6 +1,6 @@
 import { Grid, GridItem, Show } from "@chakra-ui/react";
 import Sidebar from "../components/Layout/Sidebar";
-import ContentPage from "./ContentPage";
+import ContentPage from "./UserHomePage";
 // import { useEffect, useState } from "react";
 
 // interface UserProps {
