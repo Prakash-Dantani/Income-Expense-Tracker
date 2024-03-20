@@ -1,13 +1,10 @@
-import { useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 
 const Logout = () => {
-  useEffect(() => {
-    const navigate = useNavigate();
-    localStorage.removeItem("x-auth-token");
-    localStorage.removeItem("user");
-    return navigate("/");
-  });
+  const navigate = useNavigate();
+  localStorage.removeItem("x-auth-token");
+  localStorage.removeItem("user");
+  return navigate("/");
 };
 
 export default Logout;

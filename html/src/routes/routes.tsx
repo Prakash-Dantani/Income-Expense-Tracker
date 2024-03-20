@@ -6,8 +6,7 @@ import ErrorPage from "../pages/ErrorPage";
 import LoginPage from "../pages/LoginPage";
 import ContentPage from "../pages/UserHomePage";
 import AppLayout from "../pages/AppLayout";
-import AddExpense from "../components/AddExpense";
-import Logout from "../pages/Logout";
+import AddExpense from "../components/expense/AddExpense";
 
 const router = createBrowserRouter([
   {
@@ -26,7 +25,7 @@ const router = createBrowserRouter([
     children: [
       { path: "home", element: <ContentPage /> },
       { path: "addExpense", element: <AddExpense /> },
-      { path: "logout", element: <Logout /> },
+      // { path: "logout", element: <Logout /> },
     ],
   },
 ]);

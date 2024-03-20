@@ -30,5 +30,4 @@ const useLoggedInStore = create((set) => ({
       };
     }),
 }));
-
 export default useLoggedInStore;

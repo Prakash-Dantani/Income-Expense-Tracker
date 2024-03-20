@@ -18,6 +18,7 @@ import {
 } from "@chakra-ui/react";
 import { CloseIcon, HamburgerIcon, UnlockIcon } from "@chakra-ui/icons";
 import LinkElement from "../elements/LinkElement";
+import logout from "../../hooks/useLogout";
 
 export default function NavHeader() {
   const { isOpen, onOpen, onClose } = useDisclosure();
@@ -39,21 +40,22 @@ export default function NavHeader() {
           <Flex alignItems={"center"}>
             <Stack direction={"row"} spacing={7}>
               <Menu>
-                <LinkElement to={"logout"}>
-                  <Button
-                    variant={"solid"}
-                    color={"white"}
-                    bg={"blue.400"}
-                    _hover={{
-                      bg: "blue.500",
-                    }}
-                    size={"sm"}
-                    mr={4}
-                    leftIcon={<UnlockIcon />}
-                  >
-                    Logout
-                  </Button>
-                </LinkElement>
+                {/* <LinkElement to={"logout"}> */}
+                <Button
+                  variant={"solid"}
+                  color={"white"}
+                  bg={"blue.400"}
+                  _hover={{
+                    bg: "blue.500",
+                  }}
+                  size={"sm"}
+                  mr={4}
+                  leftIcon={<UnlockIcon />}
+                  onClick={() => logout()}
+                >
+                  Logout
+                </Button>
+                {/* </LinkElement> */}
                 <MenuButton
                   as={Button}
                   rounded={"full"}
