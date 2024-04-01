@@ -16,15 +16,15 @@ module.exports.index = async (req, res) => {
 }
 
 module.exports.store = async (req, res) => {
-    let error = expnseValidation(_.pick(req.body, ['amount', 'date', 'expense_category_id', 'expense_category_item_id']));
+    let error = expnseValidation(_.pick(req.body, ['amount', 'date', 'expense_category_id', 'expense_category_item_id', 'remarks']));
     if(error) return res.status(400).send({message:error.message, data:[req.body]});
     
-    let expense_category = await ExpenseCategory.getCategory(req.body.expense_category_id);;
-    if(expense_category.status !== 200) return res.status(403).send({message:message, data:req.body});
+    let expense_category = await ExpenseCategory.getCategory(req.body.expense_category_id);
+    if(expense_category.status !== 200) return res.status(403).send({message:"Expense Category not found.", data:req.body});
     expense_category = expense_category.data;
 
     let expense_category_item = await ExpenseCategoryItem.getCategoryItems(req.body.expense_category_item_id);
-    if(expense_category_item.status !== 200) return res.status(403).send({message:message, data:req.body});
+    if(expense_category_item.status !== 200) return res.status(403).send({message:"Expense Sub Category not found.", data:req.body});
     expense_category_item = expense_category_item.data;
 
     let expense = {
@@ -39,6 +39,7 @@ module.exports.store = async (req, res) => {
             name:expense_category_item.name
         },
         created_by: req.user._id,
+        remarks:req.body.remarks
     };
 
     try{
@@ -107,6 +108,7 @@ const expnseValidation = (formData) => {
         date:Joi.date().less('now').iso().required(),
         expense_category_id:Joi.string().required(),
         expense_category_item_id:Joi.string().required(),
+        remarks:Joi.string(),
     });
 
     return expense_validation.validate(formData).error;

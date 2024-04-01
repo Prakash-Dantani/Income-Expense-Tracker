@@ -17,10 +17,15 @@ import {
   IconButton,
 } from "@chakra-ui/react";
 import { CloseIcon, HamburgerIcon, UnlockIcon } from "@chakra-ui/icons";
-import LinkElement from "../elements/LinkElement";
-import logout from "../../hooks/useLogout";
+import useLogout from "../../hooks/useLogout";
 
 export default function NavHeader() {
+  const logout = useLogout(); // Get the logout function from the useLogout hook
+
+  const handleLogout = () => {
+    logout(); // Call the logout function when the button is clicked
+  };
+
   const { isOpen, onOpen, onClose } = useDisclosure();
 
   return (
@@ -51,7 +56,7 @@ export default function NavHeader() {
                   size={"sm"}
                   mr={4}
                   leftIcon={<UnlockIcon />}
-                  onClick={() => logout()}
+                  onClick={handleLogout}
                 >
                   Logout
                 </Button>

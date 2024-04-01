@@ -7,7 +7,7 @@ const router = express.Router();
 
 
 // only Admin and Login User can access this route
-router.get('/index', isAuthentic, isAdmin, ExpenseCategory.index);
+router.get('/index', isAuthentic, ExpenseCategory.index);
 router.post('/store', isAuthentic, isAdmin, ExpenseCategory.store);
 router.post('/edit/:id?', isAuthentic, isAdmin, validateID, ExpenseCategory.edit);
 router.put('/update', isAuthentic, isAdmin, validateID, ExpenseCategory.update);

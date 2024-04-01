@@ -1,5 +1,4 @@
-import { Image, Input } from "@chakra-ui/react";
-import React from "react";
+import { Image } from "@chakra-ui/react";
 
 interface ImageProps {
   src: string;

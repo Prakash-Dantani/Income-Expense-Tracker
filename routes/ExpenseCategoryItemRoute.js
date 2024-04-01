@@ -6,7 +6,7 @@ const validateID = require("../middleware/validateID");
 
 const router = express.Router();
 
-router.get('/index', isAuthentic, isAdmin, ExpenseCategoryItem.index);
+router.get('/index', isAuthentic, ExpenseCategoryItem.index);
 router.post('/store', isAuthentic, isAdmin, ExpenseCategoryItem.store);
 router.post('/edit', isAuthentic, isAdmin, validateID, ExpenseCategoryItem.edit);
 router.put('/update', isAuthentic, isAdmin, validateID, ExpenseCategoryItem.update);

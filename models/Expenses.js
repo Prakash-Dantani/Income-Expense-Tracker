@@ -28,6 +28,7 @@ const ExpenseSchema = new mongoose.Schema({
                                     }),
                                     required:true,
                             },
+                            remarks:{type:String, required:false},
                             created_by: { type:String, minlength:1, required:false },
                             created_at: { type: Date, default: Date.now },
                             updated_by: { type:String, minlength:1, required:false },

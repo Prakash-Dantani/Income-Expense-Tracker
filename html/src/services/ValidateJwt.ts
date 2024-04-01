@@ -3,7 +3,6 @@ import { jwtDecode } from "jwt-decode";
 const validateJwt = (token) => {
   try {
     let decodedToken = jwtDecode(token);
-    console.log("Decoded Token", decodedToken);
     let currentDate = new Date();
 
     // JWT exp is in seconds

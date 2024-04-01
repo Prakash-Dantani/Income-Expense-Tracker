@@ -16,7 +16,6 @@ import {
 } from "@chakra-ui/react";
 import useLoggedInStore from "../hooks/useAuth";
 import validateJwt from "../services/ValidateJwt";
-import { useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import requestHandle from "../hooks/useLogin";
 
@@ -36,24 +35,22 @@ export default function LoginPage() {
     useLoginStore.login(data, token);
     const valid_jwt = validateJwt(token);
     if (valid_jwt.isLogin) {
-      alert(valid_jwt.message);
-      return navigate("/app/home");
+      return navigate("/app/home", { state: valid_jwt });
     }
     alert(valid_jwt.message);
   };
 
-  useEffect(() => {
-    setInterval(() => {
-      const { isLogin, message } = validateJwt(
-        localStorage.getItem("x-auth-token")
-      );
-      if (!isLogin) {
-        alert(message);
-        return navigate("/");
-      }
-    }, 200000);
-  }, []);
-
+  // useEffect(() => {
+  //   setInterval(() => {
+  //     const { isLogin, message } = validateJwt(
+  //       localStorage.getItem("x-auth-token")
+  //     );
+  //     if (!isLogin) {
+  //       alert(message);
+  //       return navigate("/");
+  //     }
+  //   }, 200000);
+  // }, []);
   return (
     <Flex
       minH={"100%"}
