@@ -2,8 +2,11 @@ import { HStack, Image, Text } from "@chakra-ui/react";
 import logo from "../../assets/image/logo/logo.png";
 import LinkElement from "../elements/LinkElement";
 import ColorModeSwitch from "../ColorModeSwitch";
+import NavHeader from "./NavHeader";
 
 const Header = () => {
+  const token = localStorage.getItem("x-auth-token");
+
   return (
     <>
       <HStack padding={5}>
@@ -17,6 +20,7 @@ const Header = () => {
           Income Expense Tracker
         </Text>
         <ColorModeSwitch />
+        {token ? <NavHeader /> : ""}
       </HStack>
     </>
   );

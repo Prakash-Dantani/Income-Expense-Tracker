@@ -1,5 +1,4 @@
 import { useToast } from "@chakra-ui/react";
-import React from "react";
 
 const SuccessToaster = ({ msg = "Success." }: { msg?: string }) => {
   const toast = useToast();

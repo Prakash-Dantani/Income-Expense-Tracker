@@ -32,7 +32,7 @@ export default function Navbar() {
           <IconButton
             size={"md"}
             icon={isOpen ? <CloseIcon /> : <HamburgerIcon />}
-            aria-label={"Open Menu"}
+            aria-label={"Open MenuPPP"}
             display={{ md: "none" }}
             onClick={isOpen ? onClose : onOpen}
           />

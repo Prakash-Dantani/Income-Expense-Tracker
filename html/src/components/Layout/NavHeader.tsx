@@ -10,13 +10,11 @@ import {
   MenuList,
   MenuItem,
   MenuDivider,
-  useDisclosure,
   Stack,
   Center,
   HStack,
-  IconButton,
 } from "@chakra-ui/react";
-import { CloseIcon, HamburgerIcon, UnlockIcon } from "@chakra-ui/icons";
+import { UnlockIcon } from "@chakra-ui/icons";
 import useLogout from "../../hooks/useLogout";
 
 export default function NavHeader() {
@@ -26,20 +24,11 @@ export default function NavHeader() {
     logout(); // Call the logout function when the button is clicked
   };
 
-  const { isOpen, onOpen, onClose } = useDisclosure();
-
   return (
     <>
       <Box px={4}>
         {/* <Box bg={useColorModeValue("gray.100", "gray.900")} px={4}> */}
         <Flex h={16} alignItems={"center"} justifyContent={"space-between"}>
-          <IconButton
-            size={"md"}
-            icon={isOpen ? <CloseIcon /> : <HamburgerIcon />}
-            aria-label={"Open Menu"}
-            display={{ md: "none" }}
-            onClick={isOpen ? onClose : onOpen}
-          />
           <HStack spacing={4} display={{ base: "none", md: "flex" }}></HStack>
 
           <Flex alignItems={"center"}>
@@ -91,7 +80,6 @@ export default function NavHeader() {
                   </Center>
                   <br />
                   <MenuDivider />
-                  <MenuItem>Your Servers</MenuItem>
                   <MenuItem>Account Settings</MenuItem>
                   <MenuItem>Logout</MenuItem>
                 </MenuList>

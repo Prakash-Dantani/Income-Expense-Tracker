@@ -12,7 +12,7 @@ const useExpenseCategoryItem = () =>
     queryKey: ["expense_category_item"],
     queryFn: apiClient.getAll,
     staleTime: ms("24H"),
-    // initialData: expenseCategoryItems,
+    initialData: expenseCategoryItems,
   });
 
 export default useExpenseCategoryItem;

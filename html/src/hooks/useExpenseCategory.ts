@@ -9,8 +9,8 @@ const useExpenseCategory = () =>
   useQuery({
     queryKey: ["expense_category"],
     queryFn: apiClient.getAll,
-    staleTime: ms("24H"),
-    // initialData: expenseCategories,
+    staleTime: ms("1m"),
+    initialData: expenseCategories,
   });
 
 export default useExpenseCategory;

@@ -3,6 +3,7 @@ import { ExpenseCategoryItem } from "./ExpenseCategoryItem";
 
 export interface Expenses {
   _id?: string;
+  key?: string;
   amount: number;
   date: Date;
   expanse_category: ExpenseCategory;

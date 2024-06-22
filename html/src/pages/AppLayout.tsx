@@ -14,6 +14,7 @@ const AppLayout = () => {
   // const { isOpen, onOpen, onClose } = useDisclosure();
   useEffect(() => {
     const token = localStorage.getItem("x-auth-token");
+    console.log(token);
     if (!token) {
       return navigate("/", {
         state: { messsage: "User is Logout.", type: "error" },
@@ -33,24 +34,28 @@ const AppLayout = () => {
   return (
     <>
       <Header />
-      <NavHeader />
+      {/* <NavHeader /> */}
       <ToastContainer />
 
       <>
         <Grid
-          templateAreas={{ base: `"main"`, lg: `"sidebar main"` }}
+          templateAreas={{
+            base: `"main sidebar"`,
+            lg: `"sidebar main"`,
+            sm: `"sidebar main"`,
+          }}
           templateColumns={{ base: "1fr", lg: "20vw" }}
           padding={5}
         >
-          <Show above="lg">
-            <GridItem area="sidebar">
-              <Sidebar />
-            </GridItem>
+          {/* <Show above="lg"> */}
+          <GridItem area="sidebar">
+            <Sidebar />
+          </GridItem>
+          {/* </Show> */}
 
-            <GridItem>
-              <Outlet />
-            </GridItem>
-          </Show>
+          <GridItem area="main">
+            <Outlet />
+          </GridItem>
         </Grid>
       </>
     </>

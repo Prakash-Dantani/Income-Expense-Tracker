@@ -34,15 +34,19 @@ interface LinkItemProps {
 const LinkItems: Array<LinkItemProps> = [
   { name: "Home", icon: FiHome, url: "/app/home" },
   { name: "Add Expense", icon: FiTrendingUp, url: "/app/addExpense" },
-  { name: "Explore", icon: FiCompass, url: "/app/home" },
-  { name: "Favourites", icon: FiStar, url: "/app/home" },
-  { name: "Settings", icon: FiSettings, url: "/app/home" },
+  // { name: "Explore", icon: FiCompass, url: "/app/home" },
+  // { name: "Favourites", icon: FiStar, url: "/app/home" },
+  // { name: "Settings", icon: FiSettings, url: "/app/home" },
 ];
 
 export default function Sidebar() {
   const { isOpen, onOpen, onClose } = useDisclosure();
   return (
-    <Box minH="100vh" bg={useColorModeValue("gray.100", "gray.900")}>
+    <Box
+      minH="100vh"
+      minWidth={"20%"}
+      bg={useColorModeValue("gray.100", "gray.900")}
+    >
       <SidebarContent
         onClose={() => onClose}
         display={{ base: "none", md: "block" }}
@@ -78,17 +82,17 @@ const SidebarContent = ({ onClose, ...rest }: SidebarProps) => {
       bg={useColorModeValue("white", "gray.900")}
       borderRight="1px"
       borderRightColor={useColorModeValue("gray.200", "gray.700")}
-      w={{ base: "full", md: 60 }}
+      // w={{ base: "full", md: 60 }}
       // pos="fixed"
-      h="full"
+      h="100vh"
       {...rest}
     >
-      <Flex h="20" alignItems="center" mx="8" justifyContent="space-between">
-        <Text fontSize="2xl" fontFamily="monospace" fontWeight="bold">
+      {/* <Flex h="40" alignItems="center" mx="8" justifyContent="space-between">
+         <Text fontSize="2xl" fontFamily="monospace" fontWeight="bold">
           Logo
-        </Text>
-        <CloseButton display={{ base: "flex", md: "none" }} onClick={onClose} />
-      </Flex>
+        </Text> 
+      </Flex> */}
+      <CloseButton display={{ base: "flex", md: "none" }} onClick={onClose} />
       {LinkItems.map((link) => (
         <NavItem key={link.name} icon={link.icon} url={link.url}>
           {link.name}
@@ -143,7 +147,7 @@ interface MobileProps extends FlexProps {
 const MobileNav = ({ onOpen, ...rest }: MobileProps) => {
   return (
     <Flex
-      ml={{ base: 0, md: 60 }}
+      // ml={{ base: 0, md: 60 }}
       px={{ base: 4, md: 24 }}
       height="20"
       alignItems="center"
@@ -160,9 +164,9 @@ const MobileNav = ({ onOpen, ...rest }: MobileProps) => {
         icon={<FiMenu />}
       />
 
-      <Text fontSize="2xl" ml="8" fontFamily="monospace" fontWeight="bold">
+      {/*<Text fontSize="2xl" ml="8" fontFamily="monospace" fontWeight="bold">
         Logo
-      </Text>
+      </Text> */}
     </Flex>
   );
 };

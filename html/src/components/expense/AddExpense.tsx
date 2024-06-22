@@ -1,5 +1,4 @@
 import { useForm } from "react-hook-form";
-// import "bootstrap/dist/css/bootstrap.min.css";
 
 import {
   Box,
@@ -10,9 +9,7 @@ import {
   Input,
   Select,
   Spinner,
-  Table,
-  TableCaption,
-  TableContainer,
+  // Table,
   Tbody,
   Td,
   Textarea,
@@ -27,11 +24,21 @@ import ModalOpenButton from "../utills/ModalOpenButton";
 import useModal from "../../hooks/useModal";
 import "bootstrap/dist/css/bootstrap.min.css";
 
+// import DataTable from "datatables.net-dt";
+
 import selectAllExpense from "../../hooks/useExpenses";
 import useAddExpenses from "../../hooks/useAddExpense";
 import CheckFutureDate from "../utills/CheckFutureDate";
 import { ShowAlert } from "../utills/ShowAlert";
 import ExpenseCategoryItemSelector from "./ExpenseCategoryItemSelector";
+
+import { Table } from "antd";
+import { ColumnsType, TableProps } from "antd/es/table";
+import "antd/dist/reset.css";
+
+// import "./styles.css";
+import { Expenses } from "../../entities/Expenses";
+
 const AddExpense = () => {
   // Form Submit Event
   const {
@@ -74,10 +81,39 @@ const AddExpense = () => {
     const response = selectAllExpense();
     return response;
   };
-  const { isLoading, error, data: expenses } = getAllExpense();
-  // { isLoading, error, data: expenses }
+
+  const { isLoading, error, data } = getAllExpense();
   if (isLoading) return <Spinner />;
-  if (error || !expenses) throw error;
+  if (error || !data) throw error;
+  const obj = data.data;
+
+  const expenses: Expenses[] = obj;
+
+  // if (expenses) new DataTable("#expensesTable", {});
+
+  type TableRowSelection<T> = TableProps<T>["rowSelection"];
+  const columns: ColumnsType<Expenses> = [
+    {
+      title: "amount",
+      dataIndex: "amount",
+    },
+    {
+      title: "Date",
+      dataIndex: "date",
+    },
+    {
+      title: "Expense Category",
+      render: (expenses) => expenses.expanse_category.name,
+    },
+    {
+      title: "Expense Category Item",
+      render: (expenses) => expenses.expanse_category_item.name,
+    },
+    {
+      title: "Remarks",
+      dataIndex: "remarks",
+    },
+  ];
 
   return (
     <>
@@ -225,44 +261,47 @@ const AddExpense = () => {
         <br />
         <br />
         <br />
-        <TableContainer>
-          <Table
-            variant="simple"
-            className="table table-responsive table-striped table-hover"
-          >
-            <TableCaption>Expenses Made and Enterd by You.</TableCaption>
-            <Thead>
-              <Tr>
-                <Th>Expense Category</Th>
-                <Th>Expense Sub Category</Th>
-                <Th isNumeric>Expense Amount</Th>
-                <Th>Date</Th>
-                <Th>Reamrks</Th>
-              </Tr>
-            </Thead>
-            <Tbody>
-              {expenses?.data &&
-                expenses.data.map((expense) => (
-                  <Tr key={expense._id}>
-                    <Td>{expense.expanse_category.name}</Td>
-                    <Td>{expense.expanse_category_item.name}</Td>
-                    <Td isNumeric>{expense.amount}</Td>
-                    <Td></Td>
-                    <Td>{expense.remarks}</Td>
-                  </Tr>
-                ))}
-            </Tbody>
-            <Tfoot>
-              <Tr>
-                <Th>Expense Category</Th>
-                <Th>Expense Sub Category</Th>
-                <Th isNumeric>Expense Amount</Th>
-                <Th>Date</Th>
-                <Th>Reamrks</Th>
-              </Tr>
-            </Tfoot>
-          </Table>
-        </TableContainer>
+        <Table<Expenses> columns={columns} dataSource={expenses} />
+
+        <br />
+        <br />
+        <br />
+        {/* <Table
+          id="expensesTable"
+          variant="simple"
+          className="table table-responsive table-striped table-hover"
+        >
+          <Thead>
+            <Tr>
+              <Th>Expense Category</Th>
+              <Th>Expense Sub Category</Th>
+              <Th isNumeric>Expense Amount</Th>
+              <Th>Date</Th>
+              <Th>Reamrks</Th>
+            </Tr>
+          </Thead>
+          <Tbody>
+            {expenses?.data &&
+              expenses.data.map((expense) => (
+                <Tr key={expense._id}>
+                  <Td>{expense.expanse_category.name}</Td>
+                  <Td>{expense.expanse_category_item.name}</Td>
+                  <Td isNumeric>{expense.amount}</Td>
+                  <Td></Td>
+                  <Td>{expense.remarks}</Td>
+                </Tr>
+              ))}
+          </Tbody>
+          <Tfoot>
+            <Tr>
+              <Th>Expense Category</Th>
+              <Th>Expense Sub Category</Th>
+              <Th isNumeric>Expense Amount</Th>
+              <Th>Date</Th>
+              <Th>Reamrks</Th>
+            </Tr>
+          </Tfoot>
+        </Table> */}
       </Box>
     </>
   );

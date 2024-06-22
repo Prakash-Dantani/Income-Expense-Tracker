@@ -17,7 +17,7 @@ export interface FetchResponse<T> {
 }
 
 export const axiousInstance = axios.create({
-  baseURL: "http://localhost:3000",
+  baseURL: "http://192.168.43.189:3000",
   headers: {
     "Content-Type": "application/json",
     Authorization: `Bearer ${token}`,
