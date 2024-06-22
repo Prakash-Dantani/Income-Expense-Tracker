@@ -2,15 +2,20 @@ import { create } from "zustand";
 import { UserData } from "../entities/Login";
 
 const $LOCAL_LOGGEDIN_KEY = "x-auth-token";
-
+interface AuthStore {
+  loggedIn: boolean;
+  // user: UserData;
+  login: (userData: UserData, token: string) => void;
+  logout: () => void;
+}
 const getInitialLoggedIn = () => {
-  const loggedIn = localStorage.getItem($LOCAL_LOGGEDIN_KEY) || false;
+  const loggedIn = localStorage.getItem($LOCAL_LOGGEDIN_KEY) === "true";
   return loggedIn;
 };
 
-const useLoggedInStore = create((set) => ({
+export const useLoggedInStore = create<AuthStore>((set) => ({
   loggedIn: getInitialLoggedIn(),
-  user: {},
+  // user: {},
   login: (userData: UserData, token: string) =>
     set(() => {
       localStorage.setItem($LOCAL_LOGGEDIN_KEY, token);
@@ -30,4 +35,3 @@ const useLoggedInStore = create((set) => ({
       };
     }),
 }));
-export default useLoggedInStore;

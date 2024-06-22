@@ -7,21 +7,13 @@ import {
   Flex,
   Icon,
   useColorModeValue,
-  Text,
   Drawer,
   DrawerContent,
   useDisclosure,
   BoxProps,
   FlexProps,
 } from "@chakra-ui/react";
-import {
-  FiHome,
-  FiTrendingUp,
-  FiCompass,
-  FiStar,
-  FiSettings,
-  FiMenu,
-} from "react-icons/fi";
+import { FiHome, FiTrendingUp, FiMenu } from "react-icons/fi";
 import { IconType } from "react-icons";
 import { ReactText } from "react";
 import LinkElement from "../elements/LinkElement";

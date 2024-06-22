@@ -1,8 +1,7 @@
-import { Grid, GridItem, Show } from "@chakra-ui/react";
+import { Grid, GridItem } from "@chakra-ui/react";
 import { Outlet, useNavigate } from "react-router-dom";
 import Header from "../components/Layout/Header";
 import Sidebar from "../components/Layout/Sidebar";
-import NavHeader from "../components/Layout/NavHeader";
 import { useEffect } from "react";
 import validateJwt from "../services/ValidateJwt";
 import { ToastContainer } from "react-toastify";

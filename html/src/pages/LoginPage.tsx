@@ -14,7 +14,7 @@ import {
   useColorModeValue,
   FormErrorMessage,
 } from "@chakra-ui/react";
-import useLoggedInStore from "../hooks/useAuth";
+import { useLoggedInStore } from "../hooks/useAuth";
 import validateJwt from "../services/ValidateJwt";
 import { useNavigate } from "react-router-dom";
 import requestHandle from "../hooks/useLogin";
@@ -30,14 +30,19 @@ export default function LoginPage() {
   const navigate = useNavigate();
 
   const onSubmit = async (values) => {
-    let { data, token } = await requestHandle(values);
+    try {
+      let { data, token } = await requestHandle(values);
 
-    useLoginStore.login(data, token);
-    const valid_jwt = validateJwt(token);
-    if (valid_jwt.isLogin) {
-      return navigate("/app/home", { state: valid_jwt });
+      useLoginStore.login(data, token);
+      const valid_jwt = validateJwt(token);
+      if (valid_jwt.isLogin) {
+        return navigate("/app/home", { state: valid_jwt });
+      }
+      alert(valid_jwt.message);
+    } catch (error) {
+      console.error("Error during login:", error);
+      // Handle error appropriately
     }
-    alert(valid_jwt.message);
   };
 
   // useEffect(() => {

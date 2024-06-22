@@ -9,14 +9,7 @@ import {
   Input,
   Select,
   Spinner,
-  // Table,
-  Tbody,
-  Td,
   Textarea,
-  Tfoot,
-  Th,
-  Thead,
-  Tr,
 } from "@chakra-ui/react";
 import ExpenseCategorySelector from "./ExpenseCategorySelector";
 import ShowModal from "../utills/ShowModal";
@@ -33,7 +26,7 @@ import { ShowAlert } from "../utills/ShowAlert";
 import ExpenseCategoryItemSelector from "./ExpenseCategoryItemSelector";
 
 import { Table } from "antd";
-import { ColumnsType, TableProps } from "antd/es/table";
+import { ColumnsType } from "antd/es/table";
 import "antd/dist/reset.css";
 
 // import "./styles.css";
@@ -89,9 +82,6 @@ const AddExpense = () => {
 
   const expenses: Expenses[] = obj;
 
-  // if (expenses) new DataTable("#expensesTable", {});
-
-  type TableRowSelection<T> = TableProps<T>["rowSelection"];
   const columns: ColumnsType<Expenses> = [
     {
       title: "amount",
