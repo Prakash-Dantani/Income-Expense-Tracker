@@ -20,26 +20,30 @@ import {
   Th,
   Thead,
   Tr,
-  useQuery,
 } from "@chakra-ui/react";
 import ExpenseCategorySelector from "./ExpenseCategorySelector";
 import ShowModal from "../utills/ShowModal";
 import ModalOpenButton from "../utills/ModalOpenButton";
 import useModal from "../../hooks/useModal";
-import { useEffect, useState } from "react";
+import "bootstrap/dist/css/bootstrap.min.css";
 
 import selectAllExpense from "../../hooks/useExpenses";
 import useAddExpenses from "../../hooks/useAddExpense";
+import CheckFutureDate from "../utills/CheckFutureDate";
+import { ShowAlert } from "../utills/ShowAlert";
+import ExpenseCategoryItemSelector from "./ExpenseCategoryItemSelector";
 const AddExpense = () => {
+  // Form Submit Event
   const {
     handleSubmit,
     register,
+    reset,
     formState: { errors, isSubmitting },
   } = useForm();
 
-  // const { addExpenses, selectAllExpense } = useAddExpenses();
+  // Submit Form
   const onSubmit = async (formData) => {
-    let { data, isLoading } = await useAddExpenses(formData);
+    let { isLoading, message, status } = await useAddExpenses(formData);
     if (isLoading) {
       <Spinner
         thickness="4px"
@@ -49,25 +53,30 @@ const AddExpense = () => {
         size="xl"
       />;
     }
-    console.log(data);
+    if (status == 400) return ShowAlert(message, "error");
+
+    reset();
+    closeModal();
+    // getAllExpense();
+    return ShowAlert(message);
   };
 
+  // Check Current Date is not a future date
   const isFutureDateInvalid = (value) => {
-    const enteredDate = new Date(value);
-    const currentDate = new Date();
-    return enteredDate > currentDate ? "Future dates are invalid" : true;
+    return CheckFutureDate(value);
   };
 
-  // Get Expenses
-  // const [data, setData] = useState(null);
-  // const [error, setError] = useState(null);
-  // const [isLoading, setIsLoading] = useState(null);
-
+  // OpenModal
   const { modalOpen, openModal, closeModal } = useModal(false);
 
-  const { isLoading, error, data: expenses } = selectAllExpense();
+  // Get Expenses
+  const getAllExpense = () => {
+    const response = selectAllExpense();
+    return response;
+  };
+  const { isLoading, error, data: expenses } = getAllExpense();
+  // { isLoading, error, data: expenses }
   if (isLoading) return <Spinner />;
-
   if (error || !expenses) throw error;
 
   return (
@@ -80,8 +89,6 @@ const AddExpense = () => {
             float: "right",
           }}
         >
-          {/* {error && <p className="text-danger">{error.message}</p>}
-          {isLoading && <div className="spinner-border"></div>} */}
           <ModalOpenButton onClick={openModal} label="Add Expense" />
 
           <ShowModal
@@ -128,6 +135,7 @@ const AddExpense = () => {
                     required: "Expense sub category is required",
                   })}
                 >
+                  <ExpenseCategoryItemSelector />
                   <option value="65c2f086eab0018780a9efa7">PPPP</option>
                 </Select>
                 <FormErrorMessage>
@@ -218,7 +226,10 @@ const AddExpense = () => {
         <br />
         <br />
         <TableContainer>
-          <Table variant="simple">
+          <Table
+            variant="simple"
+            className="table table-responsive table-striped table-hover"
+          >
             <TableCaption>Expenses Made and Enterd by You.</TableCaption>
             <Thead>
               <Tr>

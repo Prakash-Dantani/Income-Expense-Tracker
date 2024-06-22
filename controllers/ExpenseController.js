@@ -17,7 +17,7 @@ module.exports.index = async (req, res) => {
 
 module.exports.store = async (req, res) => {
     let error = expnseValidation(_.pick(req.body, ['amount', 'date', 'expense_category_id', 'expense_category_item_id', 'remarks']));
-    if(error) return res.status(400).send({message:error.message, data:[req.body]});
+    if(error) return res.status(200).send({message:error.message, data:[req.body], status:400});
     
     let expense_category = await ExpenseCategory.getCategory(req.body.expense_category_id);
     if(expense_category.status !== 200) return res.status(403).send({message:"Expense Category not found.", data:req.body});

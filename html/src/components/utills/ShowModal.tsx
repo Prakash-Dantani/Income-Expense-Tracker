@@ -20,6 +20,7 @@ const ShowModal = ({ isOpen, onClose, title, children }) => {
           <ModalHeader>{title}</ModalHeader>
           <ModalCloseButton />
           <ModalBody>{children}</ModalBody>
+          <br />
           <ModalFooter>
             <Button onClick={onClose}>Close</Button>
           </ModalFooter>
