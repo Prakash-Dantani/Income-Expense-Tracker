@@ -5,7 +5,7 @@
   "main": "index.js",
   "scripts": {
     "start": "node index.js",
-    "build": "npm run build"
+    "build": "tsc -b"
   },
   "author": "",
   "license": "ISC",
@@ -27,5 +27,8 @@
     "react-toastify": "^10.0.5",
     "winston": "^3.11.0",
     "winston-daily-rotate-file": "^4.7.1"
+  },
+  "devDependencies": {
+    "typescript": "^5.5.2"
   }
 }
