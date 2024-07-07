@@ -1,8 +1,9 @@
 {
   "exclude": [
-     "node_modules",
+    //  "node_modules",
      "html"
  ],
+ "include": ["*"],
   "compilerOptions": {
     /* Visit https://aka.ms/tsconfig to read more about this file */
 
